@@ -25,10 +25,12 @@ query: (customID ~ {0} OR labels in ({0})) AND issuetype = Epic
 predicate: labels NOT IN ("NoDev") OR labels is EMPTY
 
 [customfields]
-# optionally specify the following custom fields
-sprint: customfield_10123
-team: customfield_12111
-storypoints: customfield_12345
+## optionally specify the following custom fields for your JIRA instance
+## (the id values for your JIRA instance can for example be seen in the
+## issue query autocomplete, or ask your friendly JIRA admin)
+# sprint: customfield_10123
+# team: customfield_12111
+# storypoints: customfield_12345
 '''.strip()
 
 _config_inst: Optional[configparser.ConfigParser] = None

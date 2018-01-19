@@ -2,6 +2,11 @@
 Jiradeps is a Python tool to render the dependency graph of Jira stories (i.e., the "is blocked by" relations). It can 
 also be used to track the progress during development.
 
+Internally, jiradeps works in three stages to render a dependency graph:
+1. First the selected Epics are loaded from JIRA, based on the provided parameters. Then the stories contained in these Epics are loaded.
+2. The story dependencies are translated into a graph representation (using the networkx library). Graph properties like the longest dependency chain are calculated from this graph.
+3. A graphical representation of the dependency graph is rendered into a file (e.g., an SVG or PNG) via the graphviz library.  
+
 ### How to install
 
 After the checkout, go to the jiradeps directory (Python >= 3.6 is required):
@@ -19,10 +24,11 @@ is found (which then has to be adapted by you). The config file is read from the
 specified otherwise.
 
 ### Usage
-- Recommended flags for story checking during analysis: `-go` (group by epic, open file)
-- Recommended flags for development: `-goas` (..., align by sprint, show status)
+- Recommended flags for backlog analysis: `-go` (group by epic, open file)
+- Recommended flags during development of the stories: `-goas` (..., align by sprint, show status)
 
-Explanation of the numbers in parentheses for story nodes, like `(2)` or `(2/3)`:
+#### Explanation of the numbers in parentheses for story nodes
+You will notice that story nodes contain cryptic numbers like `(2)` or `(2/3)` next to the story title: 
 - The second or single number is the longest chain of blocking ancestors (including the story itself), so theoretically 
 the sprint in which it can be started.
 - The first number is the first sprint for which the story is marked (only shown if available).
