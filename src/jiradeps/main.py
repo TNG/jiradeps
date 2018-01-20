@@ -32,7 +32,7 @@ click_log.basic_config()
               default=os.path.join(os.getcwd(), CONFIG_FILENAME),
               help='Config file to be used '
                    f'(defaults to CWD/{CONFIG_FILENAME})')
-@click.option('--password', help='Jira password')
+@click.option('--password', '-p', help='Jira password')
 # output
 @click.option('--file-name', '-f',
               help='Name for output file (without file extension).')

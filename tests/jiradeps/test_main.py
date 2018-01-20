@@ -3,6 +3,7 @@
 
 from unittest.mock import MagicMock
 import configparser
+import os
 
 from pytest import fixture
 from click.testing import CliRunner
@@ -28,7 +29,14 @@ def config():
     return test_config
 
 
-def test_cli(mocker, config, epics, stories):
+@fixture
+def click_runner():
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        yield runner
+
+
+def test_cli(click_runner, mocker, config, epics, stories):
     mocker.patch('jiradeps.main._load_or_create_config', return_value=True)
     mocker.patch('jiradeps.jirawrapper.get_config',
                  return_value=config)
@@ -38,14 +46,16 @@ def test_cli(mocker, config, epics, stories):
     mocker.patch('jiradeps.main.get_jira_session', return_value=MagicMock(
         search_issues=MagicMock(side_effect=[epics, stories])))
 
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        result = runner.invoke(main.cli,
-                               ['--password', 'test', '-g', 'ABC-123'],
-                               catch_exceptions=False)
-        # the output file can be gathered from the log if needed:
-        # print('\n' + result.output.split()[-1])
+    result = click_runner.invoke(main.cli,
+                                 ['-f', 'test', '-p', 'test', '-g', 'ABC-123'],
+                                 catch_exceptions=False)
     assert result.exit_code == 0
     assert 'loaded 1 epics' in result.output
     assert 'loaded 2 stories' in result.output
-    assert 'rendered graph as' in result.output
+
+    assert os.path.isfile('test.gv.svg')
+    with open('test.gv.svg') as output_file:
+        file_content = output_file.read()
+    assert 'ABC&#45;10' in file_content
+    assert 'ABC&#45;11' in file_content
+    assert 'ABC&#45;12' in file_content
