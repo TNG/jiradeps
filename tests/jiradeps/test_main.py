@@ -5,14 +5,14 @@ from unittest.mock import MagicMock
 import configparser
 import os
 
-from pytest import fixture
+import pytest
 from click.testing import CliRunner
 
 import jiradeps.main as main
 
 
-@fixture
-def config():
+@pytest.fixture()
+def config(mocker):
     test_config = configparser.ConfigParser()
     test_config.read_dict({
         'server': {
@@ -26,23 +26,23 @@ def config():
         'customfields': {
         }
     })
+    mocker.patch('jiradeps.main._load_or_create_config', return_value=True)
+    mocker.patch('jiradeps.jirawrapper.get_config',
+                 return_value=test_config)
+    mocker.patch('jiradeps.main.get_config',
+                 return_value=test_config)
     return test_config
 
 
-@fixture
+@pytest.fixture
 def click_runner():
     runner = CliRunner()
     with runner.isolated_filesystem():
         yield runner
 
 
-def test_cli(click_runner, mocker, config, epics, stories):
-    mocker.patch('jiradeps.main._load_or_create_config', return_value=True)
-    mocker.patch('jiradeps.jirawrapper.get_config',
-                 return_value=config)
-    mocker.patch('jiradeps.main.get_config',
-                 return_value=config)
-
+@pytest.mark.usefixtures('config')
+def test_cli(click_runner, mocker, epics, stories):
     mocker.patch('jiradeps.main.get_jira_session', return_value=MagicMock(
         search_issues=MagicMock(side_effect=[epics, stories])))
 

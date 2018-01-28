@@ -140,7 +140,3 @@ def log_issues(headline, issues):
     log.info('\n'.join([headline]
                        + ['    {} - {}'.format(issue.key, issue.fields.summary)
                           for issue in issues]))
-
-
-if __name__ == '__main__':
-    cli()
