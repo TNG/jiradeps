@@ -7,3 +7,4 @@
 -e .
 pytest
 pytest-mock
+yapf
