@@ -46,6 +46,5 @@ I hereby agree to the terms of the Jiradeps Contributor License Agreement.
 
 ### Formatting
 
-Please adjust your code formatter to the general style of the project, 
-based on [PEP8](https://www.python.org/dev/peps/pep-0008/). 
-Your IDE will probably provide support for it. 
+Please format your using yapf with the settings defined in `setup.cfg`. 
+If yapf produces errors, please update to Python 3.6.2.

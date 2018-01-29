@@ -23,14 +23,11 @@ def config(mocker):
             'keyprefix': 'ABC',
             'query': ''
         },
-        'customfields': {
-        }
+        'customfields': {}
     })
     mocker.patch('jiradeps.main._load_or_create_config', return_value=True)
-    mocker.patch('jiradeps.jirawrapper.get_config',
-                 return_value=test_config)
-    mocker.patch('jiradeps.main.get_config',
-                 return_value=test_config)
+    mocker.patch('jiradeps.jirawrapper.get_config', return_value=test_config)
+    mocker.patch('jiradeps.main.get_config', return_value=test_config)
     return test_config
 
 
@@ -43,12 +40,10 @@ def click_runner():
 
 @pytest.mark.usefixtures('config')
 def test_cli(click_runner, mocker, epics, stories):
-    mocker.patch('jiradeps.main.get_jira_session', return_value=MagicMock(
-        search_issues=MagicMock(side_effect=[epics, stories])))
+    mocker.patch(
+        'jiradeps.main.get_jira_session', return_value=MagicMock(search_issues=MagicMock(side_effect=[epics, stories])))
 
-    result = click_runner.invoke(main.cli,
-                                 ['-f', 'test', '-p', 'test', '-g', 'ABC-123'],
-                                 catch_exceptions=False)
+    result = click_runner.invoke(main.cli, ['-f', 'test', '-p', 'test', '-g', 'ABC-123'], catch_exceptions=False)
     assert result.exit_code == 0
     assert 'loaded 1 epics' in result.output
     assert 'loaded 2 stories' in result.output

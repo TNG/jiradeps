@@ -5,7 +5,6 @@ import configparser
 import logging
 from typing import Optional
 
-
 CONFIG_FILENAME = '.jiradepsrc'
 
 DEFAULT_CONFIG = '''
