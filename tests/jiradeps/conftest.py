@@ -8,21 +8,13 @@ from pytest import fixture
 
 @fixture
 def epics():
-    return [
-        MagicMock(id='1', key='ABC-10',
-                  fields=MagicMock(summary='Epic'))
-    ]
+    return [MagicMock(id='1', key='ABC-10', fields=MagicMock(summary='Epic'))]
 
 
 @fixture
 def stories():
     link = MagicMock(type='Blocks', outwardIssue=MagicMock(id='3'))
     return [
-        MagicMock(id='2', key='ABC-11',
-                  fields=MagicMock(
-                      summary='Story 1',
-                      issuelinks=[link]
-                  )),
-        MagicMock(id='3', key='ABC-12',
-                  fields=MagicMock(summary='Story 2'))
+        MagicMock(id='2', key='ABC-11', fields=MagicMock(summary='Story 1', issuelinks=[link])),
+        MagicMock(id='3', key='ABC-12', fields=MagicMock(summary='Story 2'))
     ]
