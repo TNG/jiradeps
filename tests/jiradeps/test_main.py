@@ -20,7 +20,7 @@ def config(mocker):
             'username': 'testuser'
         },
         'jql': {
-            'keyprefix': 'ABC',
+            'epicprefix': 'ABC',
             'query': ''
         },
         'customfields': {

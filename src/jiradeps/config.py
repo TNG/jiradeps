@@ -14,10 +14,10 @@ url: https://example.local/jira
 username: test
 
 [jql]
-# prefix used to identify issue keys
-keyprefix: ABC
+# prefix used to identify epic issue keys (e.g., the "ABC" in "ABC-4711")
+epicprefix: ABC
 
-# optional query to load epics if the key prefix doesn't match
+# optional query to load epics if the epic key prefix doesn't match
 # (query is run for each specified epic identifier)
 query: (customID ~ {0} OR labels in ({0})) AND issuetype = Epic 
 

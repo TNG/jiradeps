@@ -43,7 +43,7 @@ def get_jira_session(user, password, server) -> JIRA:
 
 def load_epics(epic_params: List[str], session: JIRA) -> List[Issue]:
     epics = []
-    key_prefix = get_config()['jql']['keyprefix']
+    key_prefix = get_config()['jql']['epicprefix']
     for epic_param in epic_params:
         if epic_param.startswith(key_prefix):
             epics.append(_load_epic_by_key(epic_param, session))
