@@ -26,8 +26,8 @@ predicate: labels NOT IN ("NoDev") OR labels is EMPTY
 
 [customfields]
 ## optionally specify the following custom fields for your JIRA instance
-## (the id values for your JIRA instance can for example be seen in the
-## issue query autocomplete, or ask your friendly JIRA admin)
+## (the id values for your Jira instance can for example be seen in the
+## issue query autocomplete, or ask your friendly Jira admin)
 # sprint: customfield_10123
 # team: customfield_12111
 # storypoints: customfield_12345
