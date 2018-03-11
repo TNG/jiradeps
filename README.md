@@ -3,13 +3,15 @@ Jiradeps is a Python tool to render the dependency graph of Jira stories (i.e., 
 also be used to track the progress during development.
 
 Internally, jiradeps works in three stages to render a dependency graph:
-1. First the selected Epics are loaded from JIRA, based on the provided parameters. Then the stories contained in these Epics are loaded.
+1. First the selected Epics are loaded from [Jira](https://www.atlassian.com/software/jira), based on the provided parameters. Then the stories contained in these Epics are loaded.
 2. The story dependencies are translated into a graph representation (using the networkx library). Graph properties like the longest dependency chain are calculated from this graph.
-3. A graphical representation of the dependency graph is rendered into a file (e.g., an SVG or PNG) via the graphviz library.  
+3. A graphical representation of the dependency graph is rendered into a file (e.g., an SVG or PNG) via the [graphviz](https://www.graphviz.org/) library.  
 
 ### How to install
 
-After the checkout, go to the jiradeps directory (Python >= 3.6 is required):
+First, you have to ensure that [graphviz](https://www.graphviz.org/) is installed (e.g., via a manual installation, or via a package manager / brew on macOS / Chocolatey on Windows).
+
+Then download or clone this project. Afterwards go to the resulting jiradeps directory (Python >= 3.6 is required):
 
     pip install .
 

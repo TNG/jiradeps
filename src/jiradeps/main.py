@@ -56,7 +56,7 @@ def cli(epic_params, configfile, password,
         file_name, file_type, open_file,
         hide_unconnected, align_sprints, group_epics, show_status):
     """
-    EPIC_PARAMS can be JIRA issue keys (matching the prefix specified in the
+    EPIC_PARAMS can be Jira issue keys (matching the prefix specified in the
     config file), or will otherwise be loaded using the query from the
     config file.
     """
