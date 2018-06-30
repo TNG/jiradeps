@@ -13,6 +13,7 @@ from .config import get_config
 log = logging.getLogger(__name__)
 
 SPRINT_ID_REGEX = re.compile(r'name=Sprint (\w+),')
+BLOCKING_RELATIONS = {'Blocks', 'Blocker'}
 
 
 def _get_customfields() -> configparser.SectionProxy:
@@ -32,11 +33,12 @@ def _fields_to_load() -> List[str]:
     return fields
 
 
-def get_jira_session(user, password, server) -> JIRA:
+def get_jira_session(user, password, server,
+                     verify_certificate=True) -> JIRA:
     log.info('initializing JIRA connection...')
-    jira = JIRA(options={'server': server},
+    jira = JIRA(options={'server': server, 'verify': verify_certificate},
                 basic_auth=(user, password),
-                validate=True)
+                validate=True, max_retries=1)
     log.info('initialized JIRA')
     return jira
 
@@ -52,7 +54,7 @@ def load_epics(epic_params: List[str], session: JIRA) -> List[Issue]:
     return epics
 
 
-def _load_epics_by_config_query(epic_param: str, session: JIRA)-> List[Issue]:
+def _load_epics_by_config_query(epic_param: str, session: JIRA) -> List[Issue]:
     query = get_config()['jql'].get('query')
     if not query:
         log.warning('no custom epic query is configured, '
@@ -78,7 +80,8 @@ def _load_epic_by_key(epic_key: str, session: JIRA) -> List[Issue]:
 
 
 def load_epic_stories(epic: Issue, session: JIRA) -> List[Issue]:
-    query = 'type = Story AND "Epic Link" = {}'.format(epic.key)
+    query = ('type = Story OR type = UserStory AND "Epic Link" = {}'.
+             format(epic.key))
     predicate = get_config()['jql'].get('predicate')
     if predicate:
         query = f'{query} AND ({predicate})'
@@ -118,7 +121,8 @@ def get_team(issue: Issue) -> Optional[str]:
 def get_blocked_keys(issue: Issue) -> List[str]:
     links = issue.fields.issuelinks
     return [link.outwardIssue.id for link in links
-            if str(link.type) == 'Blocks' and hasattr(link, 'outwardIssue')]
+            if str(link.type) in BLOCKING_RELATIONS
+            and hasattr(link, 'outwardIssue')]
 
 
 def get_related_keys(issue: Issue) -> List[str]:
