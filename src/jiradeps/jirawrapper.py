@@ -38,7 +38,7 @@ def get_jira_session(user, password, server,
     log.info('initializing JIRA connection...')
     jira = JIRA(options={'server': server, 'verify': verify_certificate},
                 basic_auth=(user, password),
-                validate=True, max_retries=1)
+                validate=True)
     log.info('initialized JIRA')
     return jira
 
