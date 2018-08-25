@@ -12,6 +12,8 @@ DEFAULT_CONFIG = '''
 [server]
 url: https://example.local/jira
 username: test
+## check the server certificate (disable this for self-signed certificates) 
+# check-certificate: true
 
 [jql]
 # prefix used to identify epic issue keys (e.g., the "ABC" in "ABC-4711")
