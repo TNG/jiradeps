@@ -20,6 +20,11 @@ jobs:
           - jiradeps-dependencies-
 
       - run:
+          name: install graphviz
+          command: |
+            sudo apt-get install graphviz
+
+      - run:
           name: install dependencies
           command: |
             python3 -m venv venv
