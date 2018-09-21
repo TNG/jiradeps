@@ -64,9 +64,11 @@ def cli(epic_params, configfile, password,
     config = get_config()
     server_config = config['server']
     user = server_config['username']
+    check_certificate = server_config.getboolean('check-certificate', True)
     if not password:
         password = _get_password(user, 'jiradeps')
-    session = get_jira_session(user, password, server_config['url'])
+    session = get_jira_session(user, password, server_config['url'],
+                               verify_certificate=check_certificate)
 
     epics = load_epics(epic_params, session)
     log.info(f'loaded {len(epics)} epics')

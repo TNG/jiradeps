@@ -1,0 +1,50 @@
+#
+# See https://circleci.com/docs/2.0/configuration-reference for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: circleci/python:3.6.1
+
+    steps:
+      - checkout
+
+      # Cache dependencies
+      - restore_cache:
+          keys:
+          - jiradeps-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - jiradeps-dependencies-
+
+      - run:
+          name: install graphviz
+          command: |
+            sudo apt-get install graphviz
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -U -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: jiradeps-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            python -m pytest --junit-xml=test-results/pytest/result.xml
+
+      - store_artifacts:
+          path: test-results/pytest
+          destination: pytest
+
+      - store_test-results:
+          path: test-results/pytest
