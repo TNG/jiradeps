@@ -1,3 +1,9 @@
+[![CircleCI](https://circleci.com/gh/TNG/jiradeps.svg?style=svg)](https://circleci.com/gh/TNG/jiradeps)
+
+# Jiradeps
+
+Graphically assess the dependencies of your Jira stories
+
 ### About
 Jiradeps is a Python tool to render the dependency graph of Jira stories (i.e., the "is blocked by" relations). It can 
 also be used to track the progress during development.
