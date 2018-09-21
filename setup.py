@@ -42,12 +42,12 @@ setup(
     ],
     install_requires=[
         'click>=6.7',
-        'click-log>=0.3.2',
-        'colorama>=0.3.9',
-        'keyring>=13.2.1',
-        'jira>=2.0.0',
+        'click-log>=0.3',
+        'colorama>=0.3',
+        'keyring>=13.2',
+        'jira>=2.0',
         'networkx>=2.1',
-        'graphviz>=0.8.4',
+        'graphviz>=0.8',
     ],
     entry_points='''
         [console_scripts]
