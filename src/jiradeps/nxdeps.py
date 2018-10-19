@@ -55,6 +55,7 @@ def remove_unconnected_nodes(graph: nx.DiGraph):
     """Remove unconnected nodes and return the corresponding issues."""
     removed_nodes = [node for node in graph.nodes()
                      if graph.degree(node) == 0]
+    removed_issues = {graph.node[node]['issue'] for node in removed_nodes}
     if removed_nodes:
         graph.remove_nodes_from(removed_nodes)
-    return [graph.node[node]['issue'] for node in removed_nodes]
+    return removed_issues
