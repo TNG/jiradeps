@@ -23,5 +23,5 @@ def test_remove_unconnected_nodes(stories):
     removed_issues = remove_unconnected_nodes(graph)
 
     assert len(graph) == 2
-    assert removed_issues == ['test issue']
+    assert removed_issues == {'test issue'}
 
