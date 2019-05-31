@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/TNG/jiradeps.svg?style=svg)](https://circleci.com/gh/TNG/jiradeps)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTNG%2Fjiradeps.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FTNG%2Fjiradeps?ref=badge_shield)
 
 # Jiradeps
 
@@ -52,3 +53,6 @@ Jiradeps was conceived, written and executed by [Niko Wilbert](https://github.co
 &copy; 2018 TNG Technology Consulting GmbH, Unterföhring, Germany
 
 Licensed under the Apache License, Version 2.0 - see [LICENSE.md](LICENSE.md) in project root directory.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTNG%2Fjiradeps.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FTNG%2Fjiradeps?ref=badge_large)
