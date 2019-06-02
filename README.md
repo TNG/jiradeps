@@ -36,6 +36,8 @@ specified otherwise.
 - Recommended flags for backlog analysis: `-go` (group by epic, open file)
 - Recommended flags during development of the stories: `-goas` (..., align by sprint, show status)
 
+![example](docs/example.svg)
+
 #### Explanation of the numbers in parentheses for story nodes
 You will notice that story nodes contain cryptic numbers like `(2)` or `(2/3)` next to the story title: 
 - The second or single number is the longest chain of blocking ancestors (including the story itself), so theoretically 

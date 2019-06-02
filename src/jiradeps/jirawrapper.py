@@ -80,7 +80,7 @@ def _load_epic_by_key(epic_key: str, session: JIRA) -> List[Issue]:
 
 
 def load_epic_stories(epic: Issue, session: JIRA) -> List[Issue]:
-    query = ('type = Story OR type = UserStory AND "Epic Link" = {}'.
+    query = ('type = Story AND "Epic Link" = {}'.
              format(epic.key))
     predicate = get_config()['jql'].get('predicate')
     if predicate:
