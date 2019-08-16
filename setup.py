@@ -48,6 +48,7 @@ setup(
         'jira>=2.0',
         'networkx>=2.1',
         'graphviz>=0.8',
+        'flask'
     ],
     entry_points='''
         [console_scripts]

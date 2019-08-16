@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<header>
+    <title>Jiradeps</title>
+</header>
+<body>
+<ul>
+    <li><a href="/">Home</a></li>
+    {% if 'username' in session %}
+    <li><a href="/logout">Logout {{ session['username']}}</a></li>
+    {% else %}
+    <li><a href="/login">Login</a></li>
+    {% endif %}
+</ul>
+
+{% block header %}
+<h1>Jiradeps</h1>
+{% endblock header %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+{% block main %}
+{% endblock main %}
+
+{% if config['DEBUG'] %}
+<hr>
+<h2>Config (debug)</h2>
+<dl>
+    {% for k,v in config.items() %}
+    <dt>{{ k }}</dt>
+    <dd>{{ v }}</dd>
+    {% endfor %}
+</dl>
+{% endif %}
+
+{% block footer %}
+<hr>
+<p><a href="https://github.com/TNG/jiradeps">Jiradeps</a> was conceived, written and executed by <a href="https://github.com/nwilbert">Niko
+    Wilbert</a>,
+    <a href="https://github.com/achimh3011">Achim Herwig</a> and <a href="https://github.com/airblader">Ingo Bürk</a>.</p>
+<p>© 2018, 2019 TNG Technology Consulting GmbH, Unterföhring, Germany</p>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block main %}
+<h2>Login to Jira Server</h2>
+    <p>Please give your credentials for server <a href="{{ server }}">{{ server }}</a>.</p>
+<form method="post">
+    <label for="username">User</label>
+    <input id="username" type=text name=username required>
+    <label for="password">Password</label>
+    <input id="password" type=password name=password required>
+    </p>
+    <p><input type=submit value=Login></p>
+</form>
+{% endblock main %}
