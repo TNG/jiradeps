@@ -46,7 +46,7 @@ setup(
         'colorama>=0.3',
         'keyring>=13.2',
         'jira>=2.0',
-        'networkx>=2.1',
+        'networkx>=2.4',
         'graphviz>=0.8',
     ],
     entry_points='''

@@ -28,7 +28,7 @@ def create_issue_digraph(epics_stories):
             graph.add_node(issue.id, issue=issue, epic=epic)
     for issue in itertools.chain(*epics_stories.values()):
         for target_issue_id in get_blocked_keys(issue):
-            if target_issue_id not in graph.node:
+            if target_issue_id not in graph.nodes:
                 log.warning(
                     f'issue {issue.key} blocks unknown issue {target_issue_id}')
                 continue
@@ -45,17 +45,17 @@ def add_longest_ancestor_distance(graph: nx.DiGraph):
     log.info('longest path length: {}'.format(
         max(nx.dag_longest_path_length(graph) + 1, 1)))
     for node in nx.topological_sort(graph):
-        max_dist_predecessors = [graph.node[predecessor]['max_pred_dist'] + 1
+        max_dist_predecessors = [graph.nodes[predecessor]['max_pred_dist'] + 1
                                  for predecessor in graph.predecessors(node)]
-        graph.node[node]['max_pred_dist'] = max(max_dist_predecessors,
+        graph.nodes[node]['max_pred_dist'] = max(max_dist_predecessors,
                                                 default=0)
 
 
 def remove_unconnected_nodes(graph: nx.DiGraph):
     """Remove unconnected nodes and return the corresponding issues."""
-    removed_nodes = [node for node in graph.nodes()
+    removed_nodes = [node for node in graph.nodes
                      if graph.degree(node) == 0]
-    removed_issues = {graph.node[node]['issue'] for node in removed_nodes}
+    removed_issues = {graph.nodes[node]['issue'] for node in removed_nodes}
     if removed_nodes:
         graph.remove_nodes_from(removed_nodes)
     return removed_issues
