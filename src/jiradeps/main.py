@@ -1,4 +1,4 @@
-# Copyright 2018 TNG Technology Consulting GmbH, Unterföhring, Germany
+# Copyright 2018,2022 TNG Technology Consulting GmbH, Unterföhring, Germany
 # Licensed under the Apache License, Version 2.0 - see LICENSE.md in project root directory
 
 """
@@ -64,10 +64,11 @@ def cli(epic_params, configfile, password,
     config = get_config()
     server_config = config['server']
     user = server_config['username']
+    token = server_config.get('token')
     check_certificate = server_config.getboolean('check-certificate', True)
-    if not password:
+    if not (password or token):
         password = _get_password(user, 'jiradeps')
-    session = get_jira_session(user, password, server_config['url'],
+    session = get_jira_session(user, password, token, server_config['url'],
                                verify_certificate=check_certificate)
 
     epics = load_epics(epic_params, session)

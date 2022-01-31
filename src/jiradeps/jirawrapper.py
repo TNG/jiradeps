@@ -1,4 +1,4 @@
-# Copyright 2018 TNG Technology Consulting GmbH, Unterföhring, Germany
+# Copyright 2018,2022 TNG Technology Consulting GmbH, Unterföhring, Germany
 # Licensed under the Apache License, Version 2.0 - see LICENSE.md in project root directory
 
 import logging
@@ -33,11 +33,16 @@ def _fields_to_load() -> List[str]:
     return fields
 
 
-def get_jira_session(user, password, server,
+def get_jira_session(user, password, token, server,
                      verify_certificate=True) -> JIRA:
     log.info('initializing JIRA connection...')
-    jira = JIRA(options={'server': server, 'verify': verify_certificate},
-                basic_auth=(user, password),
+    if token:
+        jira = JIRA(options={'server': server, 'verify': verify_certificate},
+                token_auth=token,
+                validate=True)
+    else:
+        jira = JIRA(options={'server': server, 'verify': verify_certificate},
+                auth=(user, password),
                 validate=True)
     log.info('initialized JIRA')
     return jira
@@ -80,7 +85,7 @@ def _load_epic_by_key(epic_key: str, session: JIRA) -> List[Issue]:
 
 
 def load_epic_stories(epic: Issue, session: JIRA) -> List[Issue]:
-    query = ('type = Story OR type = UserStory AND "Epic Link" = {}'.
+    query = ('type = Story AND "Epic Link" = {}'.
              format(epic.key))
     predicate = get_config()['jql'].get('predicate')
     if predicate:
