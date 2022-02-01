@@ -12,8 +12,8 @@ DEFAULT_CONFIG = '''
 [server]
 url: https://example.local/jira
 username: test
-# Alternatively, you can specify a personal access token.
-token: XXXX
+# Alternatively, you can specify a personal access token. The token will take precedence, so you can skip the username. 
+# token: XXXX
 ## check the server certificate (disable this for self-signed certificates) 
 # check-certificate: true
 
