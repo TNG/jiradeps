@@ -1,9 +1,9 @@
-# Copyright 2018 TNG Technology Consulting GmbH, Unterföhring, Germany
+# Copyright 2018,2022 TNG Technology Consulting GmbH, Unterföhring, Germany
 # Licensed under the Apache License, Version 2.0 - see LICENSE.md in project root directory
 
 
 LICENSE = """
-   Copyright 2018 TNG Technology Consulting GmbH, Unterföhring, Germany
+   Copyright 2018,2022 TNG Technology Consulting GmbH, Unterföhring, Germany
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ setup(
         'click-log>=0.3',
         'colorama>=0.3',
         'keyring>=13.2',
-        'jira>=2.0',
+        'jira>=3.0',
         'networkx>=2.4',
         'graphviz>=0.8',
     ],
