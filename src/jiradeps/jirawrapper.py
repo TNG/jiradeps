@@ -99,10 +99,13 @@ def load_epic_stories(epic: Issue, session: JIRA) -> List[Issue]:
 
 def get_sprints(issue: Issue) -> Optional[Set[str]]:
     sprint_field = _get_customfields().get('sprint')
-    if not sprint_field:
+    if not sprint_field or (sprint_str := getattr(issue.fields, sprint_field)) is None:
         return None
-    return {SPRINT_ID_REGEX.search(sprint_raw).group(1)
-            for sprint_raw in getattr(issue.fields, sprint_field) or []}
+
+    return {
+        s.group(1)
+        for s in { SPRINT_ID_REGEX.search(sprint_raw) for sprint_raw in sprint_str}
+    }
 
 
 def get_story_points(issue: Issue) -> Optional[float]:
