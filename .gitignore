@@ -100,3 +100,7 @@ ENV/
 
 # Configuration File
 .jiradepsrc
+
+# output files
+*.gv
+*.gv.svg
