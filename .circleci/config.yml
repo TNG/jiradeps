@@ -7,7 +7,7 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.9
+      - image: cimg/python:3.9.12
 
     steps:
       - checkout
@@ -20,10 +20,6 @@ jobs:
           - jiradeps-dependencies-
 
       - run:
-          name: run pre-commit
-          command: pre-commit run -a
-
-      - run:
           name: install graphviz
           command: |
             sudo apt-get install graphviz
@@ -33,12 +29,21 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -U -r requirements.txt
+            pip install pip-tools
+            pip-compile
+            pip install -U -r requirements-dev.txt
+            pip install .
 
       - save_cache:
           paths:
             - ./venv
           key: jiradeps-dependencies-{{ checksum "requirements-dev.txt" }}
+
+      - run:
+          name: run pre-commit
+          command: |
+            . venv/bin/activate
+            pre-commit run -a
 
       - run:
           name: run tests
