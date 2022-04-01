@@ -13,6 +13,7 @@ Contributions are very welcome. The following will provide some helpful guidelin
 If you want to submit a contribution, please follow the following workflow:
 
 * Fork the project
+* Make sure you did ``pre-commit --install`` already. Doing it twice won't hurt.
 * Create a feature branch
 * Add your contribution
 * Create a Pull Request
@@ -42,8 +43,12 @@ If your Pull Request resolves an issue, please add a respective line to the end,
 Resolves #123
 ```
 
-### Formatting
+### Code Style & Formatting
 
-Please adjust your code formatter to the general style of the project,
-based on [PEP8](https://www.python.org/dev/peps/pep-0008/).
-Your IDE will probably provide support for it.
+Please adjust your code formatter to the general style of the project as defined in the .pre-commit.yaml file. That boils down to
+ * use Python 3.9 constructs where possible
+ * use black formatting
+ * sort your imports
+ * use proper typing
+
+The good thing is that `pre-commit` will do everything for should you forget.
