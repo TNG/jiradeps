@@ -20,6 +20,10 @@ jobs:
           - jiradeps-dependencies-
 
       - run:
+          name: run pre-commit
+          command: pre-commit run -a
+
+      - run:
           name: install graphviz
           command: |
             sudo apt-get install graphviz

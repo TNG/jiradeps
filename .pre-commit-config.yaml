@@ -39,6 +39,11 @@ repos:
     hooks:
       - id: pyupgrade
         args: [ --py39-plus ]
+  - repo: https://github.com/zahorniak/pre-commit-circleci.git
+    rev: v0.3
+    hooks:
+      - id: circleci_validate
+        stages: [manual]
   - repo: https://github.com/jazzband/pip-tools
     rev: 6.5.1
     hooks:
