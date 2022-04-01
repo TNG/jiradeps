@@ -8,6 +8,7 @@ import logging
 import os
 import sys
 import tempfile
+from pathlib import Path
 
 import click
 import click_log
@@ -34,7 +35,8 @@ click_log.basic_config()
 @click.option(
     "--configfile",
     "-c",
-    default=os.path.join(os.getcwd(), CONFIG_FILENAME),
+    type=click.Path(exists=False, dir_okay=False, path_type=Path),
+    default=Path.cwd() / CONFIG_FILENAME,
     help="Config file to be used " f"(defaults to CWD/{CONFIG_FILENAME})",
 )
 @click.option("--password", "-p", help="Jira password")

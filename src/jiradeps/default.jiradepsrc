@@ -1,0 +1,30 @@
+[server]
+url: https://example.local/jira
+username: test
+# Alternatively, you can specify a personal access token. The token will take precedence, so you can skip the username.
+# token: XXXX
+## check the server certificate (disable this for self-signed certificates)
+# check-certificate: true
+
+[jql]
+# prefix used to identify epic issue keys (e.g., the "ABC" in "ABC-4711")
+epicprefix: ABC
+
+# optional query to load epics if the epic key prefix doesn't match
+# (query is run for each specified epic identifier)
+query: (customID ~ {0} OR labels in ({0})) AND issuetype = Epic
+
+# optional predicate for loading the stories in epics
+predicate: labels NOT IN ("NoDev") OR labels is EMPTY
+# This might be different in your Jira installation
+dependency_relation: Blocker
+# This should always work, but who knows?
+sprint_name_pattern:
+
+[customfields]
+## optionally specify the following custom fields for your JIRA instance
+## (the id values for your Jira instance can for example be seen in the
+## issue query autocomplete, or ask your friendly Jira admin)
+# sprint: customfield_10123
+# team: customfield_12111
+# storypoints: customfield_12345

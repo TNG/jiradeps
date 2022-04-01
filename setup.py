@@ -1,6 +1,9 @@
 # Copyright 2018,2022 TNG Technology Consulting GmbH, Unterföhring, Germany
 # Licensed under the Apache License, Version 2.0 - see LICENSE.md in project root directory
+from pathlib import Path
 
+from setuptools import find_packages
+from setuptools import setup
 
 LICENSE = """
    Copyright 2018,2022 TNG Technology Consulting GmbH, Unterföhring, Germany
@@ -18,18 +21,17 @@ LICENSE = """
    limitations under the License.
 """
 
-with open("README.md") as readme_file:
-    README = readme_file.read()
-
-from setuptools import setup, find_packages
 
 setup(
     name="jiradeps",
     version="0.1",
-    description=README,
+    description=Path("README.md").read_text(),
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    package_data={"": ["README.md", "LICENSE.md"]},
+    package_data={
+        "": ["README.md", "LICENSE.md"],
+        "jiradeps": ["default.jiradepsrc"],
+    },
     python_requires=">=3.9",
     classifiers=[
         "Development Status :: 3 - Alpha",
