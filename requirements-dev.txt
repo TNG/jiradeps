@@ -1,9 +1,10 @@
 # Copyright 2018 TNG Technology Consulting GmbH, Unterföhring, Germany
 # Licensed under the Apache License, Version 2.0 - see LICENSE.md in project root directory
 
-# This file is only needed for development purposes, use it via `pip install -r requirements.txt`
+# This file is only needed for development purposes, use it via `pip install -r requirements-dev.txt`
 # If you just want to run jiradeps, `python ./setup.py` or `pip install .` suffices.
 
--e .
+-r requirements.txt
+pre-commit
 pytest
 pytest-mock

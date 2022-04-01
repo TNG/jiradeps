@@ -18,39 +18,39 @@ LICENSE = """
    limitations under the License.
 """
 
-with open('README.md') as readme_file:
+with open("README.md") as readme_file:
     README = readme_file.read()
 
 from setuptools import setup, find_packages
 
 setup(
-    name='jiradeps',
-    version='0.1',
+    name="jiradeps",
+    version="0.1",
     description=README,
-    packages=find_packages(where='src'),
-    package_dir={'': 'src'},
-    package_data={'': ['README.md', 'LICENSE.md']},
-    python_requires='>=3.6',
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    package_data={"": ["README.md", "LICENSE.md"]},
+    python_requires=">=3.9",
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Environment :: Console',
-        'Intended Audience :: Information Technology',
-        'License :: OSI Approved :: Apache Software License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.6',
-        'Topic :: Office/Business :: Scheduling',
+        "Development Status :: 3 - Alpha",
+        "Environment :: Console",
+        "Intended Audience :: Information Technology",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3.9",
+        "Topic :: Office/Business :: Scheduling",
     ],
     install_requires=[
-        'click>=6.7',
-        'click-log>=0.3',
-        'colorama>=0.3',
-        'keyring>=13.2',
-        'jira>=3.0',
-        'networkx>=2.4',
-        'graphviz>=0.8',
+        "click>=6.7",
+        "click-log>=0.3",
+        "colorama>=0.3",
+        "keyring>=13.2",
+        "jira>=3.0",
+        "networkx>=2.4",
+        "graphviz>=0.8",
     ],
-    entry_points='''
+    entry_points="""
         [console_scripts]
         jiradeps=jiradeps.main:cli
-    ''',
+    """,
 )
