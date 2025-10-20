@@ -4,7 +4,6 @@
 import logging
 import re
 import configparser
-from typing import List, Set, Optional
 
 from jira import JIRA, Issue
 
@@ -21,7 +20,7 @@ def _get_customfields() -> configparser.SectionProxy:
     return config['customfields']
 
 
-def _fields_to_load() -> List[str]:
+def _fields_to_load() -> list[str]:
     fields = ['key', 'summary', 'issuelinks', 'status', 'labels']
     customfields = _get_customfields()
     if 'sprint' in customfields:
@@ -48,7 +47,7 @@ def get_jira_session(user, password, token, server,
     return jira
 
 
-def load_epics(epic_params: List[str], session: JIRA) -> List[Issue]:
+def load_epics(epic_params: list[str], session: JIRA) -> list[Issue]:
     epics = []
     key_prefix = get_config()['jql']['epicprefix']
     for epic_param in epic_params:
@@ -59,7 +58,7 @@ def load_epics(epic_params: List[str], session: JIRA) -> List[Issue]:
     return epics
 
 
-def _load_epics_by_config_query(epic_param: str, session: JIRA) -> List[Issue]:
+def _load_epics_by_config_query(epic_param: str, session: JIRA) -> list[Issue]:
     query = get_config()['jql'].get('query')
     if not query:
         log.warning('no custom epic query is configured, '
@@ -72,7 +71,7 @@ def _load_epics_by_config_query(epic_param: str, session: JIRA) -> List[Issue]:
     return epics
 
 
-def _load_epic_by_key(epic_key: str, session: JIRA) -> List[Issue]:
+def _load_epic_by_key(epic_key: str, session: JIRA) -> list[Issue]:
     query = f'key in ({epic_key}) AND issuetype = Epic'
     epics = session.search_issues(query,
                                   fields=','.join(_fields_to_load()),
@@ -84,7 +83,7 @@ def _load_epic_by_key(epic_key: str, session: JIRA) -> List[Issue]:
     return epics[0]
 
 
-def load_epic_stories(epic: Issue, session: JIRA) -> List[Issue]:
+def load_epic_stories(epic: Issue, session: JIRA) -> list[Issue]:
     query = ('type = Story AND "Epic Link" = {}'.
              format(epic.key))
     predicate = get_config()['jql'].get('predicate')
@@ -97,25 +96,25 @@ def load_epic_stories(epic: Issue, session: JIRA) -> List[Issue]:
     return stories
 
 
-def get_sprints(issue: Issue) -> Optional[Set[str]]:
+def get_sprints(issue: Issue) -> set[str] | None:
     sprint_field = _get_customfields().get('sprint')
     if not sprint_field or (sprint_str := getattr(issue.fields, sprint_field)) is None:
         return None
 
     return {
         s.group(1)
-        for s in { SPRINT_ID_REGEX.search(sprint_raw) for sprint_raw in sprint_str}
+        for s in { SPRINT_ID_REGEX.search(sprint_raw) for sprint_raw in sprint_str} if s is not None
     }
 
 
-def get_story_points(issue: Issue) -> Optional[float]:
+def get_story_points(issue: Issue) -> float | None:
     story_points_field = _get_customfields().get('storypoints')
     if not story_points_field:
         return None
     return getattr(issue.fields, story_points_field) or 0.0
 
 
-def get_team(issue: Issue) -> Optional[str]:
+def get_team(issue: Issue) -> str | None:
     team_field = _get_customfields().get('team')
     if not team_field:
         return None
@@ -126,14 +125,14 @@ def get_team(issue: Issue) -> Optional[str]:
         return None
 
 
-def get_blocked_keys(issue: Issue) -> List[str]:
+def get_blocked_keys(issue: Issue) -> list[str]:
     links = issue.fields.issuelinks
     return [link.outwardIssue.id for link in links
             if str(link.type) in BLOCKING_RELATIONS
             and hasattr(link, 'outwardIssue')]
 
 
-def get_related_keys(issue: Issue) -> List[str]:
+def get_related_keys(issue: Issue) -> list[str]:
     links = issue.fields.issuelinks
     outward_keys = [link.outwardIssue.key for link in links
                     if str(link.type) == 'Relates'

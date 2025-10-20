@@ -6,6 +6,7 @@ Convert a networkx dependency graph to a .dot format with graphviz.
 """
 import html
 from collections import defaultdict
+from typing import DefaultDict
 
 import graphviz as gv
 import networkx as nx
@@ -28,7 +29,7 @@ def visualize_with_graphviz(nx_graph: nx.DiGraph, epics,
     sprint_positions = {sprint: i
                         for i, sprint in enumerate(sorted(all_sprints))}
     epics_nodes = defaultdict(set)
-    epic_sprint_nodes = defaultdict(lambda: defaultdict(set))
+    epic_sprint_nodes : DefaultDict[str, DefaultDict[int, set[str]]] = defaultdict(lambda: defaultdict(set))
 
     graph = gv.Digraph(name=file_name, format=file_type, engine='dot')
     for node, data in nx_graph.nodes(data=True):
@@ -38,12 +39,11 @@ def visualize_with_graphviz(nx_graph: nx.DiGraph, epics,
 
         issue_sprints = get_sprints(issue)
         if issue_sprints:
-            issue_sprints = list(issue_sprints)
-            issue_sprints.sort()
-            first_sprint_position = sprint_positions[issue_sprints[0]]
+            issue_sprint_list = sorted(issue_sprints)
+            first_sprint_position = sprint_positions[issue_sprint_list[0]]
             sprint_display_number = str(first_sprint_position + 1)
             hue = first_sprint_position * hue_delta
-            color = '{:1.3f} {:1.3f} {:1.3f}'.format(hue, 1, 0.8)
+            color = f'{hue:1.3f} {1:1.3f} {0.8:1.3f}'
             epic_sprint_nodes[data['epic']][first_sprint_position].add(node)
         else:
             sprint_display_number = '?'
@@ -61,7 +61,7 @@ def visualize_with_graphviz(nx_graph: nx.DiGraph, epics,
             for node in nodes:
                 sub_graph.node(node)
             epic = epics_by_key[epic_key]
-            sub_graph.body.append('label = {}'.format(_get_epic_label(epic)))
+            sub_graph.body.append(f'label = {_get_epic_label(epic)}')
             if align_sprints:
                 sub_graph.body += [
                     '\t{{rank=same;{}}}'.format(' '.join(sprint_nodes))
@@ -122,6 +122,6 @@ def _get_node_label(issue, sprints, sprint_display_number, max_pred_dist,
 def _get_epic_label(epic):
     lines = [
         f'<<FONT POINT-SIZE="10">{epic.key}',
-        '{summary}</FONT>>'.format(summary=html.escape(epic.fields.summary))
+        f'{html.escape(epic.fields.summary)}</FONT>>'
     ]
     return '<BR />'.join(lines)

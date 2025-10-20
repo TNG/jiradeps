@@ -3,7 +3,6 @@
 
 import configparser
 import logging
-from typing import Optional
 
 
 CONFIG_FILENAME = '.jiradepsrc'
@@ -12,9 +11,9 @@ DEFAULT_CONFIG = '''
 [server]
 url: https://example.local/jira
 username: test
-# Alternatively, you can specify a personal access token. The token will take precedence, so you can skip the username. 
+# Alternatively, you can specify a personal access token. The token will take precedence, so you can skip the username.
 # token: XXXX
-## check the server certificate (disable this for self-signed certificates) 
+## check the server certificate (disable this for self-signed certificates)
 # check-certificate: true
 
 [jql]
@@ -23,9 +22,9 @@ epicprefix: ABC
 
 # optional query to load epics if the epic key prefix doesn't match
 # (query is run for each specified epic identifier)
-query: (customID ~ {0} OR labels in ({0})) AND issuetype = Epic 
+query: (customID ~ {0} OR labels in ({0})) AND issuetype = Epic
 
-# optional predicate for loading the stories in epics 
+# optional predicate for loading the stories in epics
 predicate: labels NOT IN ("NoDev") OR labels is EMPTY
 
 [customfields]
@@ -37,7 +36,7 @@ predicate: labels NOT IN ("NoDev") OR labels is EMPTY
 # storypoints: customfield_12345
 '''.strip()
 
-_config_inst: Optional[configparser.ConfigParser] = None
+_config_inst: configparser.ConfigParser | None = None
 
 log = logging.getLogger(__name__)
 
@@ -58,9 +57,9 @@ def load_config(path) -> bool:
     _config_inst = configparser.ConfigParser()
     found_config = bool(_config_inst.read(path))
     if found_config:
-        log.info('loaded config from  "{}"'.format(path))
+        log.info(f'loaded config from  "{path}"')
     else:
-        log.info('no config file "{}" was found'.format(path))
+        log.info(f'no config file "{path}" was found')
     return found_config
 
 
@@ -69,6 +68,6 @@ def create_default_config(path):
         with open(path, 'x', encoding='UTF-8') as config_file:
             config_file.write(DEFAULT_CONFIG)
     except FileExistsError:
-        log.error('config file "{}" already exists'.format(path))
+        log.error(f'config file "{path}" already exists')
     else:
-        log.info('created config file "{}"'.format(path))
+        log.info(f'created config file "{path}"')

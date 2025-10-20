@@ -91,7 +91,7 @@ def cli(epic_params, configfile, password,
     if hide_unconnected:
         removed_issues = remove_unconnected_nodes(nx_graph)
         log_issues(
-            'removed {} unconnected issues:'.format(len(removed_issues)),
+            f'removed {len(removed_issues)} unconnected issues:',
             removed_issues)
     add_longest_ancestor_distance(nx_graph)
 
@@ -107,7 +107,7 @@ def cli(epic_params, configfile, password,
                                           group_epics=group_epics,
                                           align_sprints=align_sprints,
                                           show_status=show_status)
-    log.info('rendered graph as {}'.format(os.path.abspath(output_path)))
+    log.info(f'rendered graph as {os.path.abspath(output_path)}')
     if open_file:
         click.launch(output_path)
 
@@ -125,7 +125,7 @@ def _load_or_create_config(config_path):
                 bold=True))
         else:
             click.echo(click.style(
-                f'Please create a config file and start again.',
+                'Please create a config file and start again.',
                 bold=True))
         sys.exit(1)
 
@@ -134,12 +134,12 @@ def _get_password(user, service_name):
     password = keyring.get_password(service_name, user)
     if password is None:
         password = getpass.getpass(
-            'Password for {} (will be stored in keyring): '.format(user))
+            f'Password for {user} (will be stored in keyring): ')
         keyring.set_password(service_name, user, password)
     return password
 
 
 def log_issues(headline, issues):
     log.info('\n'.join([headline]
-                       + ['    {} - {}'.format(issue.key, issue.fields.summary)
+                       + [f'    {issue.key} - {issue.fields.summary}'
                           for issue in issues]))

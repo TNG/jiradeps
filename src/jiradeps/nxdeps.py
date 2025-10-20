@@ -18,8 +18,8 @@ log = logging.getLogger(__name__)
 
 def create_issue_digraph(epics_stories):
     """Return a graph representation of all issues.
-    
-    Blocking dependencies are modelled as graph edges. 
+
+    Blocking dependencies are modelled as graph edges.
     """
     log.info('creating graph...')
     graph = nx.DiGraph()

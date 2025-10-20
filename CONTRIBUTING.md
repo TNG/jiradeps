@@ -29,7 +29,7 @@ Issue: #123
 ```
 
 Please sign-off each commit as described in [DCO.md](DCO.md), e.g. by committing using
- 
+
 ````
 git commit -s ...
 ````

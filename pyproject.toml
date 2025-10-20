@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jiradeps"
+version = "0.8.0"
+description = "Graphically assess the dependencies of your Jira stories"
+readme = "README.md"
+license-files = ["LICENSE.md"]
+requires-python = ">=3.11"
+dependencies = [
+    "click>=6.7",
+    "click-log>=0.3",
+    "colorama>=0.3",
+    "graphviz>=0.8",
+    "jira>=3.0",
+    "keyring>=13.2",
+    "networkx>=2.4",
+]
+[project.scripts]
+jiradeps = "jiradeps.main:cli"
+
+[dependency-groups]
+dev = [
+    "pytest-mock>=3.15.1",
+]
